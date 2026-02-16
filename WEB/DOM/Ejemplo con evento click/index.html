@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Evento click con getElementById</title>
+    </head>
+    <body>
+        <h1>Ejemplo de evento click</h1>
+
+        <button id="btnSaludo">Mostrar mensaje</button>
+        <p id="mensaje"></p>
+
+        <!-- JavaScript siempre al final del body-->
+         <script>
+            // 1.Acceso a los elementos del DOM
+            let boton = document.getElementById("btnSaludo");
+            let parrafo = document.getElementById("mensaje");
+
+            // 2. Asociación del evento click al botón
+            boton.onclick=mostrarMensaje;
+
+            // 3. Función que se ejecuta cuando ocurre el evento
+            function mostrarMensaje(){
+                parrafo.textContent="Hola, este mensaje se mostró accediendo al DOM "
+            }
+         </script>
+    </body>
+</html>

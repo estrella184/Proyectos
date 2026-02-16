@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Personas</title>
+</head>
+<body>
+
+    <h1> Lista de personas </h1>
+    <button onclick="mostrarPersonas()">Mostrar personas</button>
+    <div id="contenedor"></div>
+
+    <script>
+        var personas = [
+            { nombre: "Sofia", apellido: "Alarcón" },
+            { nombre: "Alonso", apellido: "García" },
+            { nombre: "Alex", apellido: "Rodríguez" },
+            { nombre: "Alejandra", apellido: "Chavéz" },
+            { nombre: "Cristian", apellido: "Velázquez" }
+        ];
+
+        function mostrarPersonas() {
+            var contenedor = document.getElementById("contenedor");
+            contenedor.innerHTML = "";
+
+            var lista = document.createElement("ul");
+            for (var i = 0; i < personas.length; i++) {
+
+                var item = document.createElement("li");
+                item.appendChild(
+                    document.createTextNode(
+                        personas[i].nombre + " " + personas[i].apellido
+                    )
+                    
+                );
+                lista.appendChild(item);
+            }
+            contenedor.appendChild(lista);
+        }
+    </script>
+</body>
+</html>

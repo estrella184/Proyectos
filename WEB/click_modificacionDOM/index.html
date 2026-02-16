@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mostrar y ocultar mensaje</title>
+    </head>
+    <body>
+        <h1> Da click para ver el dato curioso... </h1>
+
+        <button id="btnSaludo">Mostrar mensaje</button>
+        <p id="mensaje"> Ada Lovelace es considerada la primera 
+                        programadora de la historia. Fue una matemática y 
+                        escritora británica que trabajó en la Máquina 
+                        Analítica de Charles Babbage, donde escribió algoritmos 
+                        que se consideran los primeros programas de computadora. 
+                        Su visión sobre la computación y su trabajo sentaron 
+                        las bases de la informática moderna. </p>
+        <script>
+            let boton = document.getElementById("btnSaludo");
+            let parrafo = document.getElementById("mensaje");
+            parrafo.style.display = "none";
+
+            boton.addEventListener("click", mostrarOcultar);
+
+            function mostrarOcultar(event){
+                if (parrafo.style.display == "none"){
+                    parrafo.style.display = "block";
+                    boton.textContent = "Ocultar mensaje";
+                } else {
+                    parrafo.style.display = "none";
+                    boton.textContent = "Mostrar mensaje";
+                }
+            }
+        </script>
+    </body>
+</html>

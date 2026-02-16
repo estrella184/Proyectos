@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Evento click con getElementById</title>
+    </head>
+    <body>
+        <h1>Evento click accediendo al DOM</h1>
+
+        <!-- Elementos html -->
+         <button id="btnSaludo">Haz click</button>
+         <p id="mensaje"></p>
+
+         <!-- JavaScript -->
+          <script>
+            //Acceso a los elementos del DOM
+            let boton = document.getElementById("btnSaludo");
+            let parrafo = document.getElementById("mensaje");
+
+            //Asociación que se ejecuta al hacer click
+            function mostrarMensaje(){
+                parrafo.textContent = "Este mensaje se mostro accediendo al DOM";
+            }
+          </script>
+    </body>
+</html>

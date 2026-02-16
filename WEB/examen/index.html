@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Examen Corte 2</title>
+
+<style>
+body{
+    font-family: 'Segoe UI', Arial, sans-serif;
+    text-align:center;
+    background: linear-gradient(135deg, #ccd3f0, #d7a6ee);
+    margin:0;
+    padding:20px;
+}
+
+h2{
+    color:rgb(0, 0, 0);
+    margin-bottom:20px;
+}
+
+button{
+    padding:10px 18px;
+    margin:10px;
+    background:white;
+    color:#764ba2;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#d7b2fa;
+    transform:scale(1.05);
+}
+
+table{
+    margin:20px auto;
+    border-collapse:collapse;
+    width:60%;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+th{
+    background:#a887c9;
+    color:white;
+    padding:10px;
+    font-size:18px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+tr:hover{
+    background:#f1f1ff;
+}
+
+.card{
+    width:320px;
+    margin:30px auto;
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img:first-child{
+    width:110px;
+    border-radius:50%;
+    border:4px solid #41225f;
+    margin-bottom:10px;
+}
+
+.card h3{
+    margin:10px 0;
+    font-size:20px;
+}
+
+.card p{
+    margin:6px 0;
+}
+
+.error{
+    color:white;
+    background:#e74c3c;
+    padding:10px;
+    border-radius:8px;
+    display:inline-block;
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<h2>Integración de APIs</h2>
+
+<button id="btnCargar">Mostrar Información</button>
+<button id="btnTarjeta">Generar Tarjeta</button>
+
+<div id="contenido"></div>
+
+<script>
+
+let datosUsuario = null;
+let datosPais = null;
+let cargado = false;
+
+const contenido = document.getElementById("contenido");
+const btnCargar = document.getElementById("btnCargar");
+const btnTarjeta = document.getElementById("btnTarjeta");
+
+const listaPaises = ["México", "Canadá", "Brasil", "Francia", "Japón"];
+
+const traduccionAPI = {
+    "México": "Mexico",
+    "Canadá": "Canada",
+    "Brasil": "Brazil",
+    "Francia": "France",
+    "Japón": "Japan"
+};
+
+const profesiones = ["Ingeniero", "Diseñador", "Doctor", "Programador", "Arquitecto"];
+
+btnCargar.addEventListener("click", async () => {
+
+    if(cargado){
+        mostrarMensaje("Los datos ya fueron cargados.");
+        return;
+    }
+
+    btnCargar.textContent = "Cargando...";
+
+    try{
+
+        const respuesta = await fetch("https://jsonplaceholder.typicode.com/users");
+        if(!respuesta.ok) throw new Error("Error API usuario");
+
+        const usuarios = await respuesta.json();
+        const user = usuarios[0];
+
+        const nombreCompleto = user.name;
+        const edad = Math.floor(Math.random() * 42) + 18;
+
+        const paisEspanol = listaPaises[Math.floor(Math.random() * listaPaises.length)];
+        const paisIngles = traduccionAPI[paisEspanol];
+
+        const imagen = "https://i.pravatar.cc/150?img=" + Math.floor(Math.random()*70);
+        const profesion = profesiones[Math.floor(Math.random()*profesiones.length)];
+
+        datosUsuario = {
+            nombreCompleto,
+            edad,
+            pais: paisEspanol,
+            imagen,
+            profesion
+        };
+
+        const respPais = await fetch(`https://restcountries.com/v3.1/name/${paisIngles}`);
+        if(!respPais.ok) throw new Error("Error API país");
+
+        const paisData = await respPais.json();
+        const p = paisData[0];
+
+        datosPais = {
+            bandera: p.flags.png,
+            capital: p.capital ? p.capital[0] : "No disponible",
+            region: p.region
+        };
+
+        cargado = true;
+
+        mostrarTablas();
+
+    }catch(error){
+        mostrarMensaje("Error al obtener datos.");
+    }
+
+    btnCargar.textContent = "Cargar Información";
+});
+
+
+function mostrarTablas(){
+
+    contenido.innerHTML = "";
+
+    const tabla1 = document.createElement("table");
+
+    const head1 = document.createElement("tr");
+    head1.innerHTML = "<th colspan='2'>Usuario</th>";
+    tabla1.appendChild(head1);
+
+    for(let key in datosUsuario){
+        const fila = document.createElement("tr");
+
+        const td1 = document.createElement("td");
+        td1.textContent = key;
+
+        const td2 = document.createElement("td");
+
+        if(key === "imagen"){
+            const img = document.createElement("img");
+            img.src = datosUsuario[key];
+            img.width = 50;
+            td2.appendChild(img);
+        }else{
+            td2.textContent = datosUsuario[key];
+        }
+
+        fila.appendChild(td1);
+        fila.appendChild(td2);
+        tabla1.appendChild(fila);
+    }
+
+    const tabla2 = document.createElement("table");
+
+    const head2 = document.createElement("tr");
+    head2.innerHTML = "<th colspan='2'>País</th>";
+    tabla2.appendChild(head2);
+
+    for(let key in datosPais){
+        const fila = document.createElement("tr");
+
+        const td1 = document.createElement("td");
+        td1.textContent = key;
+
+        const td2 = document.createElement("td");
+
+        if(key === "bandera"){
+            const img = document.createElement("img");
+            img.src = datosPais[key];
+            img.width = 50;
+            td2.appendChild(img);
+        }else{
+            td2.textContent = datosPais[key];
+        }
+
+        fila.appendChild(td1);
+        fila.appendChild(td2);
+        tabla2.appendChild(fila);
+    }
+
+    contenido.appendChild(tabla1);
+    contenido.appendChild(tabla2);
+}
+
+
+btnTarjeta.addEventListener("click", () => {
+
+    if(!cargado){
+        mostrarMensaje("Primero carga la información.");
+        return;
+    }
+
+    contenido.innerHTML = "";
+
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    const img = document.createElement("img");
+    img.src = datosUsuario.imagen;
+
+    const nombre = document.createElement("h3");
+    nombre.textContent = datosUsuario.nombreCompleto;
+    nombre.style.color = "#764ba2";
+
+    const edad = document.createElement("p");
+    edad.textContent = "Edad: " + datosUsuario.edad;
+
+    const pais = document.createElement("p");
+    pais.textContent = "País: " + datosUsuario.pais;
+
+    const profesion = document.createElement("p");
+    profesion.textContent = "Profesión: " + datosUsuario.profesion;
+
+    const bandera = document.createElement("img");
+    bandera.src = datosPais.bandera;
+    bandera.style.width = "80px";
+
+    const capital = document.createElement("p");
+    capital.textContent = "Capital: " + datosPais.capital;
+
+    const region = document.createElement("p");
+    region.textContent = "Región: " + datosPais.region;
+
+    card.appendChild(img);
+    card.appendChild(nombre);
+    card.appendChild(edad);
+    card.appendChild(pais);
+    card.appendChild(profesion);
+    card.appendChild(bandera);
+    card.appendChild(capital);
+    card.appendChild(region);
+
+    contenido.appendChild(card);
+});
+
+
+function mostrarMensaje(msg){
+    contenido.innerHTML = "";
+    const p = document.createElement("p");
+    p.classList.add("error");
+    p.textContent = msg;
+    contenido.appendChild(p);
+}
+
+</script>
+</body>
+</html>

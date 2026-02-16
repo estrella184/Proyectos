@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Actividad 5 - Visualización estructurada</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 50%;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+    <h1>Mostrar Estudiantes</h1>
+  <button id="mostrarBtn">Mostrar estudiantes</button>
+  <div id="contenedor"></div>
+
+  <script>
+    const estudiantes = [
+      { nombre: "Alejandra", carrera: "Ingeniería en Biotecnología" },
+      { nombre: "Manuel", carrera: "Ingeniería Civil" },
+      { nombre: "Sarai", carrera: "Arquitectura" },
+      { nombre: "Estrella", carrera: "Ingeniería en Sistemas" }
+    ];
+
+    const boton = document.getElementById("mostrarBtn");
+    const contenedor = document.getElementById("contenedor");
+
+    boton.addEventListener("click", () => {
+
+      contenedor.innerHTML = "";
+
+      const tabla = document.createElement("table");
+
+      const encabezado = document.createElement("tr");
+      const thNombre = document.createElement("th");
+      thNombre.textContent = "Nombre";
+      const thCarrera = document.createElement("th");
+      thCarrera.textContent = "Carrera";
+      encabezado.appendChild(thNombre);
+      encabezado.appendChild(thCarrera);
+      tabla.appendChild(encabezado);
+
+      estudiantes.forEach(est => {
+        const fila = document.createElement("tr");
+
+        const tdNombre = document.createElement("td");
+        tdNombre.textContent = est.nombre;
+
+        const tdCarrera = document.createElement("td");
+        tdCarrera.textContent = est.carrera;
+
+        fila.appendChild(tdNombre);
+        fila.appendChild(tdCarrera);
+        tabla.appendChild(fila);
+      });
+      contenedor.appendChild(tabla);
+    });
+  </script>
+</body>
+</html>

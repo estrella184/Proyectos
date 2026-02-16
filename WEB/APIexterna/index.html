@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualización de datos desde API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .usuario {
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 300px;
+            margin-top: 20px;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Datos de usuario desde una API</h2>
+<button id="btnCargar">Cargar usuario</button>
+
+<div id="contenedor"></div>
+
+<script>
+document.getElementById("btnCargar").addEventListener("click", cargarUsuario);
+
+function cargarUsuario() {
+    fetch("https://randomuser.me/api/")
+        .then(response => response.json())
+        .then(data => mostrarUsuario(data))
+        .catch(error => console.log(error));
+}
+
+function mostrarUsuario(data) {
+    const usuario = data.results[0];
+
+    const nombre = `${usuario.name.first} ${usuario.name.last}`;
+    const imagen = usuario.picture.large;
+    const ciudad = usuario.location.city;
+    const pais = usuario.location.country;
+    const edad = usuario.dob.age;
+
+    const contenedor = document.getElementById("contenedor");
+    contenedor.innerHTML = `
+        <div class="usuario">
+            <img src="${imagen}" alt="Foto de usuario">
+
+            <h3>${nombre}</h3>
+
+            <p><strong>Ubicación:</strong> ${ciudad}, ${pais}</p>
+
+            <p><strong>Edad:</strong> ${edad} años</p>
+
+            <!-- Dato NO textual: barra de progreso -->
+            <progress value="${edad}" max="100"></progress>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>

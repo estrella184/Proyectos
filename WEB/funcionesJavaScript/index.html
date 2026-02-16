@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Promedio</title>
+    </head>
+    <body>
+        
+        <script>
+            function promedio(a,b,c){
+                return (a+b+c)/3;
+            }
+
+            var cal1=Number(prompt('Ingresa la calificación 1: '));
+            var cal2=Number(prompt('Ingresa la calificación 2: '));
+            var cal3=Number(prompt('Ingresa la calificación 3: '));
+
+            var resultado = promedio(cal1,cal2,cal3);
+            document.write('Promedio: ' + resultado + '<br>');
+
+            if(resultado>=70){
+                document.write('Aprobado.<br> FELICIDADES :)');
+            }else{
+                document.write('Reprobado.<br> Sigue intentando... :( ')
+            }
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,71 @@
+<!--
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Evento click con parametro event</title>
+    </head>
+    <body>
+        <h1> Uso de parametros en eventos </h1>
+
+        <button id="btnSaludo">Haz Click</button>
+        <p id="mensaje"></p>
+
+        <script>
+            // Acceso al DOM
+            let boton = document.getElementById("btnSaludo");
+            let parrafo = document.getElementById("mensaje");
+
+            //Registra el evento click
+            boton.addEventListener("click", mostrarMensaje);
+
+            // Función que recibe el objeto event
+            function mostrarMensaje(event){
+                parrafo.textContent="Se hizo click en el boton con id: " + event.target.id;
+            }
+        </script>
+    </body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM dinámico - Crear elementos</title>
+</head>
+<body>
+
+    <h1>Ejemplo: Creación dinámica de elementos</h1>
+
+    <!-- Botón que dispara la creación -->
+    <button id="btnCrear">Crear elemento</button>
+
+    <!-- Contenedor donde se insertará el nuevo elemento -->
+    <div id="contenedor"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // 1. Acceso a los elementos existentes del DOM
+        let boton = document.getElementById("btnCrear");
+        let contenedor = document.getElementById("contenedor");
+
+        // 2. Registro del evento click
+        boton.addEventListener("click", crearElemento);
+
+        // 3. Función que crea un elemento dinámicamente
+        function crearElemento() {
+
+            // Crear un nuevo elemento <p>
+            let nuevoParrafo = document.createElement("p");
+
+            // Asignar contenido al elemento creado
+            nuevoParrafo.textContent = "Este elemento fue creado dinámicamente con JavaScript";
+
+            // Insertar el elemento en el DOM
+           // contenedor.appendChild(nuevoParrafo);
+        }
+    </script>
+
+</body>
+</html>
